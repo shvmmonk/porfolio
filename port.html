@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shivam Nath Goswami | Backend Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --dirt:#7a4f2e;
+  --dirt2:#5a3520;
+  --grass:#5d8a3c;
+  --grass2:#4a7a2e;
+  --stone:#7a7a7a;
+  --stone2:#5a5a5a;
+  --wood:#7a5c2e;
+  --wood2:#5c4422;
+  --coal:#2a2a2a;
+  --diamond:#4dd9e8;
+  --diamond2:#2ab8cc;
+  --gold:#f5c400;
+  --gold2:#c49b00;
+  --iron:#c8b89a;
+  --sky:#87ceeb;
+  --night:#0a0e1a;
+  --torch:#ff9900;
+  --redstone:#cc2200;
+  --emerald:#00c85a;
+  --lava:#ff6600;
+  --creeper:#4a8a2e;
+  --text:#fff;
+  --pixel:2px;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night);
+  color:var(--text);
+  font-family:'Press Start 2P',monospace;
+  font-size:10px;
+  image-rendering:pixelated;
+  overflow-x:hidden;
+}
+
+.pixel-border{
+  box-shadow:
+    inset -4px -4px 0 rgba(0,0,0,0.4),
+    inset 4px 4px 0 rgba(255,255,255,0.15),
+    0 4px 0 rgba(0,0,0,0.6);
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:var(--dirt2);
+  border-bottom:4px solid var(--coal);
+  padding:10px 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.nav-logo{
+  font-family:'Press Start 2P',monospace;
+  font-size:11px;color:var(--gold);
+  text-shadow:2px 2px 0 #000;
+}
+.nav-links{display:flex;gap:1.2rem}
+.nav-links a{
+  font-family:'Press Start 2P',monospace;
+  font-size:7px;color:#ccc;text-decoration:none;
+  padding:6px 10px;
+  background:var(--stone2);
+  border-top:2px solid #aaa;border-left:2px solid #aaa;
+  border-right:2px solid #333;border-bottom:2px solid #333;
+  transition:all 0.1s;
+}
+.nav-links a:hover{
+  background:var(--grass);color:#fff;
+  border-top:2px solid #7fc;border-left:2px solid #7fc;
+  transform:translateY(1px);
+}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;padding:6rem 2rem 3rem;overflow:hidden;
+}
+.stars{position:absolute;inset:0;z-index:0}
+.star{position:absolute;background:#fff;animation:twinkle 2s infinite alternate}
+@keyframes twinkle{0%{opacity:0.2}100%{opacity:1}}
+
+.moon{
+  position:absolute;top:80px;right:12%;
+  width:48px;height:48px;background:#fffde0;
+  box-shadow:inset -8px -4px 0 #e8d800,4px 4px 0 rgba(0,0,0,0.3);
+  z-index:1;
+}
+.ground{
+  position:absolute;bottom:0;left:0;right:0;height:60px;
+  background:repeating-linear-gradient(90deg,var(--grass) 0px,var(--grass) 63px,var(--grass2) 63px,var(--grass2) 64px);
+  border-top:4px solid rgba(255,255,255,0.1);z-index:1;
+}
+.ground::before{
+  content:'';position:absolute;top:16px;left:0;right:0;bottom:0;
+  background:repeating-linear-gradient(90deg,var(--dirt) 0px,var(--dirt) 63px,var(--dirt2) 63px,var(--dirt2) 64px);
+}
+.hero-box{
+  position:relative;z-index:2;
+  background:var(--dirt);
+  border-top:4px solid #a06030;border-left:4px solid #a06030;
+  border-right:4px solid #3a1a0a;border-bottom:4px solid #3a1a0a;
+  padding:2.5rem 3rem;text-align:center;max-width:640px;width:100%;
+}
+.hero-box::before{
+  content:'';position:absolute;inset:4px;
+  background:repeating-conic-gradient(rgba(0,0,0,0.03) 0% 25%,transparent 0% 50%) 0 0/16px 16px;
+  pointer-events:none;
+}
+.hero-name{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(12px,2.5vw,18px);color:var(--gold);
+  text-shadow:3px 3px 0 #000,-1px -1px 0 #000;
+  margin-bottom:1rem;line-height:1.6;
+}
+.hero-role{
+  font-family:'VT323',monospace;
+  font-size:clamp(20px,3vw,28px);color:var(--diamond);
+  text-shadow:2px 2px 0 #000;margin-bottom:1.5rem;letter-spacing:2px;
+}
+.health-bar{display:flex;flex-direction:column;align-items:center;gap:6px;margin:1.2rem 0}
+.health-label{font-size:7px;color:#aaa;letter-spacing:2px}
+.hearts{display:flex;gap:4px;justify-content:center}
+.heart{font-size:14px;filter:drop-shadow(1px 1px 0 #000)}
+.xp-bar-wrap{width:260px;height:10px;background:#333;border:2px solid #555;margin:0 auto}
+.xp-bar{height:100%;width:75%;background:var(--emerald);animation:xpPulse 2s infinite alternate}
+@keyframes xpPulse{0%{opacity:0.8}100%{opacity:1}}
+.xp-label{font-size:6px;color:var(--emerald);margin-top:4px}
+.hero-btns{display:flex;gap:1rem;justify-content:center;margin-top:1.8rem;flex-wrap:wrap}
+.mc-btn{
+  font-family:'Press Start 2P',monospace;
+  font-size:8px;padding:10px 16px;cursor:pointer;text-decoration:none;
+  display:inline-block;transition:all 0.1s;border:none;
+}
+.mc-btn:active{transform:translateY(2px)}
+.btn-grass{
+  background:var(--grass);color:#fff;
+  border-top:3px solid #8ecf5a;border-left:3px solid #8ecf5a;
+  border-right:3px solid #2a5a10;border-bottom:3px solid #2a5a10;
+  text-shadow:1px 1px 0 #000;
+}
+.btn-grass:hover{background:var(--grass2)}
+.btn-stone{
+  background:var(--stone);color:#fff;
+  border-top:3px solid #aaa;border-left:3px solid #aaa;
+  border-right:3px solid #333;border-bottom:3px solid #333;
+  text-shadow:1px 1px 0 #000;
+}
+.btn-stone:hover{background:var(--stone2)}
+
+/* Torches */
+.torch{position:absolute;display:flex;flex-direction:column;align-items:center;z-index:3}
+.torch-flame{
+  width:8px;height:10px;background:var(--torch);
+  box-shadow:0 0 8px 4px rgba(255,153,0,0.5),0 0 16px 8px rgba(255,100,0,0.2);
+  animation:flicker 0.3s infinite alternate;
+}
+@keyframes flicker{0%{transform:scaleX(1);opacity:1}100%{transform:scaleX(0.8) scaleY(1.1);opacity:0.85}}
+.torch-stick{width:4px;height:14px;background:var(--wood)}
+.torch-base{width:10px;height:4px;background:var(--wood2)}
+.torch-l{bottom:64px;left:calc(50% - 220px)}
+.torch-r{bottom:64px;right:calc(50% - 220px)}
+
+/* SECTIONS */
+section{padding:4rem 1.5rem;max-width:860px;margin:0 auto}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:2rem}
+.block-icon{width:36px;height:36px;flex-shrink:0;image-rendering:pixelated}
+.section-title{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(10px,1.8vw,14px);color:var(--gold);
+  text-shadow:2px 2px 0 #000;line-height:1.6;
+}
+.divider{
+  height:4px;
+  background:repeating-linear-gradient(90deg,var(--stone) 0,var(--stone) 15px,var(--stone2) 15px,var(--stone2) 16px);
+  margin-bottom:2rem;
+  border-top:2px solid #aaa;border-bottom:2px solid #333;
+}
+
+/* ABOUT */
+.about-block{
+  background:var(--stone2);
+  border-top:4px solid var(--stone);border-left:4px solid var(--stone);
+  border-right:4px solid #1a1a1a;border-bottom:4px solid #1a1a1a;
+  padding:2rem;position:relative;
+}
+.about-block::after{
+  content:'';position:absolute;inset:4px;
+  background:repeating-conic-gradient(rgba(255,255,255,0.02) 0% 25%,transparent 0% 50%) 0 0/16px 16px;
+  pointer-events:none;
+}
+.about-text{font-family:'VT323',monospace;font-size:22px;line-height:1.7;color:#ddd;position:relative;z-index:1}
+.about-text span{color:var(--gold)}
+.about-text em{color:var(--diamond);font-style:normal}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:1.5rem}
+.stat-block{
+  background:var(--coal);
+  border-top:3px solid #555;border-left:3px solid #555;
+  border-right:3px solid #111;border-bottom:3px solid #111;
+  padding:12px;text-align:center;
+}
+.stat-val{font-family:'Press Start 2P',monospace;font-size:16px;color:var(--emerald)}
+.stat-label{font-family:'VT323',monospace;font-size:16px;color:#888;margin-top:4px}
+
+/* SKILLS */
+.hotbar{
+  background:#1a1a1a;border:3px solid #555;padding:8px;
+  display:flex;gap:4px;justify-content:center;flex-wrap:wrap;
+  margin-bottom:1.5rem;box-shadow:inset 0 0 0 2px #333;
+}
+.hotbar-slot{
+  width:54px;height:54px;background:#222;
+  border-top:2px solid #555;border-left:2px solid #555;
+  border-right:2px solid #111;border-bottom:2px solid #111;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;cursor:pointer;position:relative;transition:all 0.1s;
+}
+.hotbar-slot:hover{background:#2a2a2a;border-top-color:#777;border-left-color:#777}
+.hotbar-slot.active{background:#333;border:2px solid var(--gold);box-shadow:0 0 8px rgba(245,196,0,0.4)}
+.slot-icon{font-size:20px}
+.slot-label{font-family:'VT323',monospace;font-size:11px;color:#aaa;text-align:center;line-height:1.1}
+.slot-num{position:absolute;bottom:2px;right:3px;font-family:'Press Start 2P',monospace;font-size:6px;color:var(--gold)}
+.skills-enchant{background:var(--coal);border:2px solid #333;padding:1.2rem}
+.enchant-title{font-family:'Press Start 2P',monospace;font-size:8px;color:var(--diamond);margin-bottom:12px;text-shadow:0 0 8px var(--diamond)}
+.skill-list{display:flex;flex-direction:column;gap:10px}
+.skill-row{display:flex;align-items:center;gap:10px}
+.skill-name-col{font-family:'VT323',monospace;font-size:18px;color:#ccc;min-width:130px}
+.skill-bar-bg{
+  flex:1;height:14px;background:#222;
+  border-top:2px solid #111;border-left:2px solid #111;
+  border-right:2px solid #444;border-bottom:2px solid #444;overflow:hidden;
+}
+.skill-bar-fill{
+  height:100%;
+  background:repeating-linear-gradient(90deg,var(--c) 0,var(--c) 7px,rgba(0,0,0,0.2) 7px,rgba(0,0,0,0.2) 8px);
+  animation:barGrow 1s ease-out forwards;
+}
+@keyframes barGrow{from{width:0!important}to{width:var(--w)}}
+.skill-lvl{font-family:'Press Start 2P',monospace;font-size:7px;color:var(--gold);min-width:30px;text-align:right}
+
+/* PROJECTS */
+.chest-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.chest{
+  background:var(--wood);
+  border-top:4px solid #b08040;border-left:4px solid #b08040;
+  border-right:4px solid #3a2210;border-bottom:4px solid #3a2210;
+  overflow:hidden;cursor:default;transition:transform 0.1s;
+}
+.chest:hover{transform:translateY(-4px)}
+.chest-top{
+  background:var(--wood2);border-bottom:4px solid #3a2210;
+  padding:12px 14px 10px;display:flex;justify-content:space-between;align-items:center;
+}
+.chest-lock{
+  width:16px;height:16px;background:var(--iron);
+  border-top:2px solid #eee;border-left:2px solid #eee;
+  border-right:2px solid #888;border-bottom:2px solid #888;margin:0 auto;
+}
+.chest-title{font-family:'Press Start 2P',monospace;font-size:8px;color:var(--gold);text-shadow:1px 1px 0 #000;flex:1}
+.chest-rarity{font-family:'VT323',monospace;font-size:14px;padding:2px 8px}
+.rarity-rare{color:var(--diamond)}
+.rarity-epic{color:#cc88ff}
+.rarity-legend{color:var(--gold)}
+.chest-body{padding:14px}
+.chest-desc{font-family:'VT323',monospace;font-size:18px;color:#ccc;line-height:1.6;margin-bottom:12px}
+.chest-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:'VT323',monospace;font-size:14px;padding:2px 8px;border:2px solid}
+.tag-diamond{color:var(--diamond);border-color:var(--diamond2);background:rgba(77,217,232,0.08)}
+.tag-gold{color:var(--gold);border-color:var(--gold2);background:rgba(245,196,0,0.08)}
+.tag-emerald{color:var(--emerald);border-color:#00a048;background:rgba(0,200,90,0.08)}
+.tag-iron{color:var(--iron);border-color:#888;background:rgba(200,184,154,0.08)}
+.tag-redstone{color:#ff6644;border-color:var(--redstone);background:rgba(200,34,0,0.08)}
+
+/* CONTACT */
+.crafting-table{
+  background:#2a1a0a;
+  border-top:4px solid #5a3a1a;border-left:4px solid #5a3a1a;
+  border-right:4px solid #0a0800;border-bottom:4px solid #0a0800;
+  padding:1.5rem;max-width:540px;margin:0 auto;
+}
+.craft-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.2rem}
+.craft-slot{
+  background:#1a0e04;
+  border-top:2px solid #3a2810;border-left:2px solid #3a2810;
+  border-right:2px solid #0a0400;border-bottom:2px solid #0a0400;
+  padding:14px 12px;display:flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--text);transition:all 0.1s;
+}
+.craft-slot:hover{background:#2a1a08;border-top-color:#6a4a20;border-left-color:#6a4a20}
+.craft-icon{font-size:22px;flex-shrink:0}
+.craft-label{font-family:'VT323',monospace;font-size:14px;color:#888}
+.craft-val{font-family:'VT323',monospace;font-size:18px;color:var(--diamond)}
+.craft-arrow{text-align:center;font-family:'Press Start 2P',monospace;font-size:14px;color:var(--gold);padding:10px 0}
+
+/* FOOTER */
+footer{
+  background:var(--dirt2);border-top:4px solid var(--coal);
+  padding:1.5rem;text-align:center;
+}
+.footer-text{font-family:'VT323',monospace;font-size:18px;color:#666}
+.footer-text span{color:var(--emerald)}
+
+/* ANIMATIONS */
+.mc-fade{opacity:0;transform:translateY(20px);transition:opacity 0.5s,transform 0.5s}
+.mc-fade.visible{opacity:1;transform:none}
+.particle{
+  position:fixed;pointer-events:none;z-index:999;
+  width:6px;height:6px;animation:particleFly 0.8s forwards;
+}
+@keyframes particleFly{
+  0%{transform:translate(0,0) rotate(0deg);opacity:1}
+  100%{transform:translate(var(--dx),var(--dy)) rotate(360deg);opacity:0}
+}
+
+@media(max-width:600px){
+  .nav-links a{font-size:5px;padding:5px 7px}
+  .hero-box{padding:1.5rem}
+  .torch-l,.torch-r{display:none}
+  .craft-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="moon"></div>
+
+<nav>
+  <div class="nav-logo">SNG.exe</div>
+  <div class="nav-links">
+    <a href="#about">[ ABOUT ]</a>
+    <a href="#skills">[ SKILLS ]</a>
+    <a href="#projects">[ CHESTS ]</a>
+    <a href="#contact">[ CRAFT ]</a>
+  </div>
+</nav>
+
+<div class="hero" id="home">
+  <div class="torch torch-l"><div class="torch-flame"></div><div class="torch-stick"></div><div class="torch-base"></div></div>
+  <div class="torch torch-r"><div class="torch-flame"></div><div class="torch-stick"></div><div class="torch-base"></div></div>
+  <div class="hero-box pixel-border">
+    <div class="hero-name">SHIVAM NATH GOSWAMI</div>
+    <div class="hero-role">⚔ Backend Developer ⚔</div>
+    <div class="health-bar">
+      <div class="health-label">HEALTH</div>
+      <div class="hearts">
+        <span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span>
+        <span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span>
+        <span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span>
+      </div>
+      <div class="xp-bar-wrap"><div class="xp-bar"></div></div>
+      <div class="xp-label">XP: 7,500 / 10,000 — LEVEL 21</div>
+    </div>
+    <div class="hero-btns">
+      <a href="#projects" class="mc-btn btn-grass">▶ VIEW PROJECTS</a>
+      <a href="#contact" class="mc-btn btn-stone">✉ CONTACT ME</a>
+    </div>
+  </div>
+  <div class="ground"></div>
+</div>
+
+<section id="about" class="mc-fade">
+  <div class="section-header">
+    <svg class="block-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <rect width="16" height="16" fill="#7a4f2e"/>
+      <rect x="0" y="0" width="5" height="5" fill="#5d8a3c"/>
+      <rect x="5" y="0" width="6" height="5" fill="#5d8a3c"/>
+      <rect x="11" y="0" width="5" height="5" fill="#4a7a2e"/>
+    </svg>
+    <div class="section-title">// PLAYER PROFILE</div>
+  </div>
+  <div class="divider"></div>
+  <div class="about-block">
+    <div class="about-text">
+      I'm a <span>Backend Developer</span> who spawned into the world of code with a love for
+      <span>Java</span> and a mission to build epic systems. I grind <em>DSA & LeetCode</em> like
+      mining diamonds — deep, focused, and rewarding.<br><br>
+      I've crafted <span>AI-powered</span> projects — a legal assistant, a fake news detector,
+      even an <em>intelligent drone</em>. Currently levelling up with
+      <span>Spring Boot</span>, <em>PostgreSQL</em>, and AI integration.<br><br>
+      Difficulty: <span>HARD</span> 🗡️ &nbsp;|&nbsp; Mode: <em>Survival</em> &nbsp;|&nbsp; Biome: <span>Ghaziabad, India</span>
+    </div>
+    <div class="stats-row">
+      <div class="stat-block"><div class="stat-val">Java</div><div class="stat-label">Main Language</div></div>
+      <div class="stat-block"><div class="stat-val">3+</div><div class="stat-label">AI Projects</div></div>
+      <div class="stat-block"><div class="stat-val">∞</div><div class="stat-label">Lines of Code</div></div>
+      <div class="stat-block"><div class="stat-val">HARD</div><div class="stat-label">Difficulty</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="mc-fade">
+  <div class="section-header">
+    <svg class="block-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <rect width="16" height="16" fill="#222"/>
+      <rect x="2" y="2" width="4" height="4" fill="#4dd9e8"/>
+      <rect x="10" y="2" width="4" height="4" fill="#4dd9e8"/>
+      <rect x="6" y="6" width="4" height="4" fill="#2ab8cc"/>
+      <rect x="2" y="10" width="4" height="4" fill="#4dd9e8"/>
+      <rect x="10" y="10" width="4" height="4" fill="#4dd9e8"/>
+    </svg>
+    <div class="section-title">// INVENTORY & ENCHANTS</div>
+  </div>
+  <div class="divider"></div>
+  <div class="hotbar">
+    <div class="hotbar-slot active"><span class="slot-icon">☕</span><span class="slot-label">Java</span><span class="slot-num">1</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🌐</span><span class="slot-label">HTML/CSS</span><span class="slot-num">2</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">⚡</span><span class="slot-label">JS</span><span class="slot-num">3</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🌿</span><span class="slot-label">Spring</span><span class="slot-num">4</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🧠</span><span class="slot-label">DSA</span><span class="slot-num">5</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🤖</span><span class="slot-label">AI/ML</span><span class="slot-num">6</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🗄️</span><span class="slot-label">Postgres</span><span class="slot-num">7</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🔢</span><span class="slot-label">LeetCode</span><span class="slot-num">8</span></div>
+    <div class="hotbar-slot"><span class="slot-icon">🔐</span><span class="slot-label">Security</span><span class="slot-num">9</span></div>
+  </div>
+  <div class="skills-enchant">
+    <div class="enchant-title">✦ ENCHANTMENT TABLE — SKILL LEVELS ✦</div>
+    <div class="skill-list">
+      <div class="skill-row"><div class="skill-name-col">Java</div><div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:88%;--c:#f5a623"></div></div><div class="skill-lvl">88</div></div>
+      <div class="skill-row"><div class="skill-name-col">DSA / LeetCode</div><div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:75%;--c:#4dd9e8"></div></div><div class="skill-lvl">75</div></div>
+      <div class="skill-row"><div class="skill-name-col">Spring Boot</div><div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:70%;--c:#5d8a3c"></div></div><div class="skill-lvl">70</div></div>
+      <div class="skill-row"><div class="skill-name-col">HTML / CSS / JS</div><div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:72%;--c:#cc88ff"></div></div><div class="skill-lvl">72</div></div>
+      <div class="skill-row"><div class="skill-name-col">AI / ML</div><div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:60%;--c:#ff9900"></div></div><div class="skill-lvl">60</div></div>
+      <div class="skill-row"><div class="skill-name-col">PostgreSQL</div><div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:65%;--c:#a0c8ff"></div></div><div class="skill-lvl">65</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="mc-fade">
+  <div class="section-header">
+    <svg class="block-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <rect width="16" height="16" fill="#7a5c2e"/>
+      <rect x="1" y="5" width="14" height="2" fill="#5c4422"/>
+      <rect x="6" y="3" width="4" height="4" fill="#8a6c3e"/>
+      <rect x="7" y="4" width="2" height="2" fill="#c8b89a"/>
+    </svg>
+    <div class="section-title">// LOOT CHESTS</div>
+  </div>
+  <div class="divider"></div>
+  <div class="chest-grid">
+
+    <div class="chest">
+      <div class="chest-top">
+        <div class="chest-title">⚖ AI LAWYER</div>
+        <div class="chest-rarity rarity-legend">LEGENDARY</div>
+      </div>
+      <div style="padding:6px 14px 4px;background:#3a2210;border-bottom:2px solid #1a0a00;display:flex;justify-content:center"><div class="chest-lock"></div></div>
+      <div class="chest-body">
+        <div class="chest-desc">AI-powered legal assistant that understands legal queries, suggests relevant laws, and breaks down complex legal documents. Justice.exe has been launched.</div>
+        <div class="chest-tags">
+          <span class="tag tag-diamond">Java</span>
+          <span class="tag tag-gold">Spring Boot</span>
+          <span class="tag tag-emerald">AI / NLP</span>
+          <span class="tag tag-iron">REST API</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chest">
+      <div class="chest-top">
+        <div class="chest-title">📰 FAKE NEWS DETECTOR</div>
+        <div class="chest-rarity rarity-epic">EPIC</div>
+      </div>
+      <div style="padding:6px 14px 4px;background:#3a2210;border-bottom:2px solid #1a0a00;display:flex;justify-content:center"><div class="chest-lock"></div></div>
+      <div class="chest-body">
+        <div class="chest-desc">ML-powered classifier that analyses news articles in real time, separating truth from misinformation. Built to fight the info-wither.</div>
+        <div class="chest-tags">
+          <span class="tag tag-diamond">ML Model</span>
+          <span class="tag tag-gold">NLP</span>
+          <span class="tag tag-emerald">Java Backend</span>
+          <span class="tag tag-redstone">Classification</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chest">
+      <div class="chest-top">
+        <div class="chest-title">🚁 AI DRONE</div>
+        <div class="chest-rarity rarity-rare">RARE</div>
+      </div>
+      <div style="padding:6px 14px 4px;background:#3a2210;border-bottom:2px solid #1a0a00;display:flex;justify-content:center"><div class="chest-lock"></div></div>
+      <div class="chest-body">
+        <div class="chest-desc">Smart drone with AI-assisted navigation, obstacle detection and autonomous path planning. Like an Enderman, but cooler and it actually listens.</div>
+        <div class="chest-tags">
+          <span class="tag tag-diamond">Computer Vision</span>
+          <span class="tag tag-gold">AI / ML</span>
+          <span class="tag tag-emerald">Java</span>
+          <span class="tag tag-iron">IoT</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="contact" class="mc-fade">
+  <div class="section-header">
+    <svg class="block-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <rect width="16" height="16" fill="#5a3a1a"/>
+      <rect x="1" y="1" width="14" height="14" fill="#3a1a06"/>
+      <rect x="3" y="3" width="4" height="4" fill="#7a5a2a"/>
+      <rect x="9" y="3" width="4" height="4" fill="#7a5a2a"/>
+      <rect x="3" y="9" width="4" height="4" fill="#7a5a2a"/>
+      <rect x="9" y="9" width="4" height="4" fill="#7a5a2a"/>
+    </svg>
+    <div class="section-title">// CRAFTING TABLE</div>
+  </div>
+  <div class="divider"></div>
+  <div class="crafting-table">
+    <div class="craft-grid">
+      <a href="mailto:shivam@email.com" class="craft-slot">
+        <span class="craft-icon">✉️</span>
+        <div><div class="craft-label">EMAIL</div><div class="craft-val">shivam@email.com</div></div>
+      </a>
+      <a href="https://github.com/" target="_blank" class="craft-slot">
+        <span class="craft-icon">💻</span>
+        <div><div class="craft-label">GITHUB</div><div class="craft-val">github.com/shivam</div></div>
+      </a>
+      <a href="https://linkedin.com/in/" target="_blank" class="craft-slot">
+        <span class="craft-icon">🔗</span>
+        <div><div class="craft-label">LINKEDIN</div><div class="craft-val">in/shivam-nath</div></div>
+      </a>
+      <a href="https://leetcode.com/" target="_blank" class="craft-slot">
+        <span class="craft-icon">🏆</span>
+        <div><div class="craft-label">LEETCODE</div><div class="craft-val">leetcode/shivam</div></div>
+      </a>
+    </div>
+    <div class="craft-arrow">➜ SEND MESSAGE ➜</div>
+    <a href="mailto:shivam@email.com" class="mc-btn btn-grass" style="display:block;text-align:center;width:100%;font-size:9px">[ CRAFT MESSAGE ]</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-text">Made with <span>❤</span> in <span>Ghaziabad, India</span> &nbsp;|&nbsp; Shivam Nath Goswami © 2025</div>
+  <div class="footer-text" style="margin-top:6px;font-size:14px;color:#333">// Saving world... ████████░░ 80%</div>
+</footer>
+
+<script>
+// Stars
+const starsEl = document.getElementById('stars');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div');
+  const size=Math.random()<0.3?3:2;
+  s.style.cssText=`position:absolute;background:#fff;width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation:twinkle ${1+Math.random()*3}s ${Math.random()*3}s infinite alternate;opacity:${0.3+Math.random()*0.7}`;
+  starsEl.appendChild(s);
+}
+
+// Scroll fade
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
+},{threshold:0.1});
+document.querySelectorAll('.mc-fade').forEach(el=>obs.observe(el));
+
+// Hotbar click
+document.querySelectorAll('.hotbar-slot').forEach(slot=>{
+  slot.addEventListener('click',()=>{
+    document.querySelectorAll('.hotbar-slot').forEach(s=>s.classList.remove('active'));
+    slot.classList.add('active');
+  });
+});
+
+// Pixel particles on click
+document.addEventListener('click',e=>{
+  const colors=['#5d8a3c','#f5c400','#4dd9e8','#ff9900','#cc88ff','#00c85a'];
+  for(let i=0;i<6;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const angle=Math.random()*Math.PI*2;
+    const dist=40+Math.random()*60;
+    p.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;background:${colors[Math.floor(Math.random()*colors.length)]};--dx:${Math.cos(angle)*dist}px;--dy:${Math.sin(angle)*dist}px;`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),800);
+  }
+});
+</script>
+</body>
+</html>
